@@ -77,9 +77,34 @@ class Parser(KeyParser, ClickParser):
     def pretty_printer(self):
         """
         Prints the merged clicks and keys raw log in a readable way.
-        """
+
         for time in sorted(self.uad):
             type, date, clock_time, program, user, window_id, title, millisecond, key, msg, x, y = self.uad[time]
             print colored(key, 'red') + SEP + millisecond + SEP + msg + SEP + title + SEP + program
         SEP = ' - '
         return table
+        """
+        # added funtion
+        SEP = ' - '
+
+        for line in sorted(self.merged):
+            # f = open('mixedfile.txt', 'a')
+            # f.write(str(time).split()+"\n")
+            event = str(line).split(",")
+            if event.__len__() == 12:
+                print("date, real_time, program_name, username, window_id, window_title, ms, interruption, x, y,"
+                      " resolution, img_name")
+                print(str(line))
+                _, _, _, _, _, _, ms, _, _, _, _, _ = line
+                print ms
+                print
+            else:
+                print("date, time, program_name, username, window_id, window_title, ms, key, x, y")
+                print(str(line))
+                _, _, _, _, _, _, ms, _, _, _, _ = line
+                print ms
+                print
+
+    # added funtion
+    def get_merged(self):
+        return self.merged

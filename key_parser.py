@@ -58,6 +58,7 @@ class KeyParser:
         while line != '' and line != '\n':
             # Get attributes from the log line.
             date, time, program_name, window_id, username, window_title, logged_keys = line.split(ATTRIBUTE_SEPARATOR)
+
             # Check whether the title is in the window.
             if title in window_title:
                 logged_keys = logged_keys.split(LINE_SEPARATOR)
@@ -69,6 +70,7 @@ class KeyParser:
                 # Save the raw data.
                 for logged_key in logged_keys:
                     ms, key, msg, x, y = logged_key.split(DATA_SEPARATOR)
+                    #print date, time, program_name, username, window_id, window_title, ms, key, msg, x, y
                     self.keys += [(date, time, program_name, username, window_id,
                                    window_title, ms, key, msg, x, y)]
             line = f.readline()

@@ -25,6 +25,7 @@ import mixed_parser
 import click_parser
 import key_parser
 from common import convert_to_hex
+from phase_info import PhaseInfo
 import copy
 from termcolor import colored
 import re
@@ -77,7 +78,7 @@ class LogInfo:
 
     def get_unique_pressed_clicks(self):
         """
-            Returns a set with all the type of clicks that have been pressed
+        Returns a set with all the type of clicks that have been pressed
         in the translation session.
         """
         pressed_clicks = set({})
@@ -120,6 +121,7 @@ class LogInfo:
         pc = {}  # Pending_clicks
         for click in self.clicks_parser.clicks:
             date, time, pn, user, wid, title, ms, msg, x, y, res, img = click
+            #print msg
             ct, msg = msg.split('_')  # click_type and message
             if msg == DOWN:
                 if ct not in pc:
@@ -130,6 +132,7 @@ class LogInfo:
                     ct, pt, rt, tt, dx, dx, ux, ux = pc.pop(ct)
                     pc[ct] = [ct, pt+[ms], None, None, dx+[x], dx+[y], None, None]
             else:  # It's an UP msg
+                #print ct
                 if ct not in pc:
                     msg = "Ha ocurrido un error fatal. "
                     msg += "El log no tiene el formato deseado."
@@ -159,17 +162,20 @@ class LogInfo:
             click_type, pt, rt, tt, dx, dy, ux, uy = click
             esp += tt
             var += tt * tt
-            print tt
+            #print tt
         esp = esp / float(click_amount)
         var = (var/float(click_amount))-(esp*esp)
         # Prints results.
-        print "*** RESUMEN DE CLICKS ***"
+        """print "*** RESUMEN DE CLICKS ***"
         print "Cantidad total de clicks:", colored(click_amount, 'blue')
         print "Ventanas en las cuales se hacen clicks:", list(windows)
         print "Tipos de clicks usados:", list(self.get_unique_pressed_clicks())
         print "Tiempo de presión de click promedio:", colored(esp, 'blue')
         print "Varianza en la presión de click:", colored(var, 'blue')
-        print "Desviación estándar en la presión de click:", colored(sqrt(var), 'blue')
+        print "Desviación estándar en la presión de click:", colored(sqrt(var), 'blue')"""
+
+        #return results
+        return [click_amount, list(windows), list(self.get_unique_pressed_clicks()), esp, var, sqrt(var)]
 
     def get_unique_pressed_keys(self):
         """
@@ -246,10 +252,12 @@ class LogInfo:
         keywds = []
         for key_struct in self.keys_parser.keys:
             date, time, pn, user, wid, title, ms, key, msg, x, y = key_struct
+            #print date, time, pn, user, wid, title, ms, key, msg, x, y
             keywds += [ms]
             kd[ms] = key_struct
         pk = {}
         for kwd in keywds:
+            #print kd[kwd]
             date, time, pn, user, wid, title, ms, key, msg, x, y = kd[kwd]
             if msg == KDOWN:
                 if key not in pk:
@@ -263,7 +271,7 @@ class LogInfo:
             else:  # It's an UP msg
                 if key not in pk:
                     msg = "Ha ocurrido un error fatal. "
-                    msg += "El log no tiene el formato deseado."
+                    msg += "El log keys no tiene el formato deseado."
                     print msg
                     exit(1)
                 else:
@@ -303,6 +311,7 @@ class LogInfo:
         """
         Prints a complete summary on the key log file.
         """
+
         key_amount = 0
         function_keys = set([])
         move_keys = set([])
@@ -311,6 +320,7 @@ class LogInfo:
         windows = set([])
         for k in self.keys_parser.keys:
             date, time, pn, user, wid, title, ms, key, msg, x, y = k
+            #print date, time, pn, user, wid, title, ms, key, msg, x, y
             if msg == "key_down":
                 key_amount += 1
             windows.add(pn)
@@ -322,14 +332,16 @@ class LogInfo:
                 move_keys.add(key)
         esp = 0
         var = 0
+
         for k in self.get_letter_info():
             key, dt, ut, tt, dx, dy, ux, uy = k
+            #print key, dt, ut, tt, dx, dy, ux, uy
             esp += tt
             var += tt * tt
         esp = esp / float(key_amount)
         var = (var / float(key_amount)) - (esp * esp)
         # Print results
-        print "*** RESUMEN DE TECLAS ***"
+        """print "*** RESUMEN DE TECLAS ***"
         print "Cantidad de teclas presionadas:", colored(key_amount, 'blue')
         print "Teclas únicas presionadas:", list(self.get_unique_pressed_keys())
         print "Ventanas donde se esribió:", list(windows)
@@ -339,7 +351,11 @@ class LogInfo:
         print "Teclas de función usadas:", list(function_keys)
         print "Patrones de borrado usados:", list(erase_keys)
         print "Teclas de movimiento usadas:", list(move_keys)
-        print "Combos de teclas usados:", list(combos)
+        print "Combos de teclas usados:", list(combos)"""
+
+        #return results
+        return [key_amount, list(self.get_unique_pressed_keys()), list(windows), esp, var, sqrt(var),
+                list(function_keys), list(erase_keys), list(move_keys), list(combos)]
 
     def get_orientation_info(self):
         """
@@ -569,3 +585,8 @@ class LogInfo:
             _ , _, _, _, _, _, x, y = click
             self.mark_click(int(x), int(y), r, g, b)
         img.show()
+
+    # Funciones agregadas
+
+    def get_mixed_parser(self):
+        return self.mixed_parser

@@ -1,4 +1,7 @@
 from termcolor import colored
+import copy
+import re
+import datetime
 
 
 class PhaseInfo:
@@ -78,38 +81,38 @@ class PhaseInfo:
         """
         Prints the info on the Planning phase.
         """
-        print "*** ORIENTACIÓN ***"
+        print "*** ORIENTACION ***"
         print "Tiempo de inicio:", colored(self.ostime, 'cyan')
-        print "Tiempo de finalización:", colored(self.oetime, 'cyan')
-        print "Duración:", colored(self.otime, 'cyan'), "ms =",
+        print "Tiempo de finalizacion:", colored(self.oetime, 'cyan')
+        print "Duracion:", colored(self.otime, 'cyan'), "ms =",
         print colored(self.otime/float(1000), 'cyan'), "sec,"
         try:
-            print "Porcentaje de la sesión dedicado a la fase de orientación:",
+            print "Porcentaje de la sesion dedicado a la fase de orientacion:",
             print colored((self.otime/float(self.ttime))*100, 'cyan'), "%"
         except NameError:
             # st - session time
             self.st = max(int(self.keys[-1][6]), int(self.openClicks[-1][6]))
             self.st -= int(self.openClicks[-2][6])
-            print "Porcentaje de la sesión dedicado a la fase de orientación:",
+            print "Porcentaje de la sesion dedicado a la fase de orientacion:",
             print colored((self.otime/float(self.st))*100, 'cyan'), "%"
 
     def print_drafting_info(self):
         """
         Prints the info on the Drafting phase.
         """
-        print "*** ELABORACIÓN DE BORRADOR ***"
+        print "*** ELABORACION DE BORRADOR ***"
         print "Tiempo de inicio:", colored(self.dstime, "cyan")
-        print "Tiempo de finalización:", colored(self.detime, "cyan")
-        print "Duración:", colored(self.dtime, "cyan"), "ms,",
+        print "Tiempo de finalizacion:", colored(self.detime, "cyan")
+        print "Duracion:", colored(self.dtime, "cyan"), "ms,",
         print colored(self.dtime/float(1000), "cyan"), "sec,"
         try:
-            print "Porcentaje de la sesión dedicado a la fase de elaboración",
+            print "Porcentaje de la sesion dedicado a la fase de elaboracion",
             print "de borrador:",
             print colored((self.dtime/float(self.ttime))*100, 'cyan'), "%"
         except NameError:
             self.st = max(int(self.keys[-1][6]), int(self.openClicks[-1][6]))
             self.st -= int(self.openClicks[-2][6])
-            print "Porcentaje de la sesión dedicado a la fase de elaboración",
+            print "Porcentaje de la sesion dedicado a la fase de elaboracion",
             print "de borrador:",
             print colored((self.dtime/float(self.stime))*100, "cyan"), "%"
 
@@ -119,11 +122,11 @@ class PhaseInfo:
         """
         print "*** RESUMEN ***"
         print "Tiempo de inicio:", colored(self.rstime, "cyan")
-        print "Tiempo de finalización:", colored(self.retime, 'cyan')
-        print "Duración:", colored(self.rtime, 'cyan'), "ms, =",
+        print "Tiempo de finalizacion:", colored(self.retime, 'cyan')
+        print "Duracion:", colored(self.rtime, 'cyan'), "ms, =",
         print colored(self.rtime/float(1000), 'cyan'), "sec,"
         try:
-            print "Porcentaje de la sesión dedicado a la fase de revisión:",
+            print "Porcentaje de la sesion dedicado a la fase de revision:",
             print colored((self.rtime/float(self.ttime))*100, 'cyan'), "%"
         except NameError:
             self.st = max(int(self.keys[-1][6]), int(self.openClicks[-1][6]))
@@ -134,7 +137,7 @@ class PhaseInfo:
         """
         Prints the general info on the session.
         """
-        print "*** SESIÓN ***"
+        print "*** SESION ***"
         try:
             print "Tiempo total:", colored(self.ttime, 'cyan'), "ms =",
             print colored(self.ttime/float(1000), 'cyan'), "sec =",

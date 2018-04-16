@@ -1,0 +1,57 @@
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+REPLACE_KEYS = {'space':" ",
+'apostrophe':'\'',
+'plus':'+',
+'comma':',',
+'minus':'-',
+'period':'.',
+#'less':"-",  # investigar
+'macron':"¯",
+'exclamdown':'!',
+#'ccedilla',  # investigar
+#'ntilde',  # investigar
+#'masculine',  # investigar
+'return':'\n',
+'asterisk':'*',
+'slash':'/',
+'grave':'`',  # investigar
+'acute':'acute',  # investigar
+'altr':'altr',
+'tab':'   ',
+'pause':'pause',
+'bloq_despl':'bloq_despl',
+'escape':'ESC',
+'repag':'repag',
+'screenshot':'screenshot',
+'insert':'insert',
+'bloq_num':'bloq_num',
+'f1':'f1',
+'f2':'f2',
+'f3':'f3',
+'f4':'f4',
+'f5':'f5',
+'f6':'f6',
+'f7':'f7',
+'f8':'f8',
+'f9':'f9',
+'f10':'f10',
+'f11':'f11',
+'f12':'f12',
+'shiftl':'shiftl',
+'shiftr':'shiftr',
+'ctrll':'ctrll',
+'ctrlr':'ctrlr',
+'mayus':'mayus',
+'altl':'altl',
+'begin':'begin',
+'leftarrow':'leftarrow',
+'uparrow':'uparrow',
+'rightarrow':'rightarrow',
+'downarrow':'downarrow',
+'avpag':'avpag',
+'end':'end',
+'backspace':'backspace',
+'supr':'supr',
+}

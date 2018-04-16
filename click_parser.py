@@ -64,6 +64,7 @@ class ClickParser:
                 # Withdraw last element since it is '\n'
                 logged_clicks = logged_clicks[:-1]
                 for logged_click in logged_clicks:
+                    #print(logged_click)
                     xcoord, ycoord, miliseconds, msg, img_name = logged_click.split(DATA_SEPARATOR)
                     self.clicks += [(date, real_time, program_name, username,
                                      window_id, window_title, miliseconds, msg,
